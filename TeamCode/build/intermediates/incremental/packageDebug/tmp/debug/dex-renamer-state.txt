@@ -1,0 +1,4 @@
+#Sat Dec 21 11:53:46 EST 2019
+base.0=/Users/RobodocZ/Downloads/TeamCode-master/TeamCode/build/intermediates/dex/debug/mergeDexDebug/out
+path.0=classes.dex
+renamed.0=classes.dex
