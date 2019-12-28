@@ -50,10 +50,11 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Block Grabing", group = "Concept")
+@TeleOp(name = "Block Grabbing", group = "Concept")
 
 public class Block extends LinearOpMode {
     private DistanceSensor IMU;
+    Serv0 arm = new Serv0(0,0.5,"arm",hardwareMap);
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -136,17 +137,18 @@ public class Block extends LinearOpMode {
                                 }
                               else {
                                   grace.move(-1, 0, 24);
-                                  //grab
+                                  arm.down();
                                   grace.move(0, 1, 48);
-                                  //release
+                                  arm.up();
                                   grace.move(0, -1, 72);
-                                  //grab
+                                  arm.down();
                                   grace.move(0, 1, 72);
-                                  //release
+                                  arm.up();
                                   while (IMU.getDistance(DistanceUnit.INCH) < 9)
                                   {
                                       grace.Gamepad(0,-1,0);
                                   }
+                                  grace.turn(360);
                               }
                             }
                             else
@@ -190,7 +192,7 @@ public class Block extends LinearOpMode {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.8;
+        tfodParameters.minimumConfidence = 0.9;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }

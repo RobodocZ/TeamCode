@@ -12,11 +12,11 @@ public class Teleop extends LinearOpMode
 
     public void runOpMode()
     {
-        Robot grace = new Robot("lF","rF","lB","rB","InL","InR",hardwareMap);
+        Robot grace = new Robot("lF","rF","lB","rB","lin","rin",hardwareMap);
         waitForStart();
         while(opModeIsActive())
         {
-            grace.Gamepad(gamepad1.left_stick_x,gamepad1.left_stick_y,gamepad1.right_stick_x,gamepad1.left_trigger,gamepad1.right_trigger);
+            grace.Gamepad(gamepad1.left_stick_x,gamepad1.left_stick_y,gamepad1.right_stick_x,gamepad1.right_trigger,gamepad1.left_trigger,gamepad1.a);
         }
     }
 }

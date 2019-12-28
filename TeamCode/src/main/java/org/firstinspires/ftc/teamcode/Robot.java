@@ -24,9 +24,14 @@ public class Robot{
         auto.move(x,y,dist);
     }
 
-    public void Gamepad(double x, double y, double turn, double LT, double RT)
+    public void Gamepad(double x, double y, double turn, double LT, double RT, boolean a)
     {
-        auto.Gamepad(x,y,turn);
+        if (a) {
+            auto.Gamepad(2*x, 2*y, 2*turn);
+        }
+        else{
+            auto.Gamepad(x, y, turn);
+        }
         intake.Gamepad(LT,RT);
     }
 

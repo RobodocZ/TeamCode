@@ -15,13 +15,13 @@ public class Intake {
     public void Suck()
     {
         Left.setPower(1);
-        Right.setPower(-1);
+        Right.setPower(1);
     }
 
     public void Out()
     {
         Left.setPower(-0.5);
-        Right.setPower(0.5);
+        Right.setPower(-0.5);
 
     }
 
