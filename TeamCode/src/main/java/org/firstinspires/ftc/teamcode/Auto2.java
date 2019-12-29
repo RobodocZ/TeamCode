@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.*;
-@Autonomous(name="Park Under Bridge (BLUE TEAM RIGHT) (DEV)", group="Dev")
+@Autonomous(name="Park Under Bridge (RIGHT SIDE) (DEV)", group="Dev")
 public class Auto2 extends LinearOpMode
 {
 
