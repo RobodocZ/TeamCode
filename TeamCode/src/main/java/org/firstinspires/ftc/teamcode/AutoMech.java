@@ -82,7 +82,7 @@ public class AutoMech
            return(In);
     }
 
-    public void move(int x,int y,int dist)
+    public void move(int x,int y, int dist)
     {
         x = 8/7 * x;
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -98,7 +98,7 @@ public class AutoMech
         leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while(leftFront.isBusy() ||rightFront.isBusy() || leftBack.isBusy() || rightBack.isBusy())
+        while(leftFront.isBusy() || /*rightFront.isBusy() ||*/ leftBack.isBusy() || rightBack.isBusy())
         {
             leftFront.setPower(1);
             rightFront.setPower(1);

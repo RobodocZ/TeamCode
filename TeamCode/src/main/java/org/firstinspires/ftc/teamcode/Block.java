@@ -54,7 +54,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 public class Block extends LinearOpMode {
     private DistanceSensor IMU;
-    Serv0 arm = new Serv0(0,0.5,"arm",hardwareMap);
+    //
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -88,6 +88,7 @@ public class Block extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        Serv0 arm = new Serv0(0,1,"arm",this);
         IMU = hardwareMap.get(DistanceSensor.class,"imu");
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
@@ -119,44 +120,45 @@ public class Block extends LinearOpMode {
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        if (updatedRecognitions.size() != 0) {
+                            telemetry.addData("# Object Detected", updatedRecognitions.size());
 
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel() == "Skystone") {
-                                telemetry.addData("",recognition);
-
-                              if (recognition.getLeft() > 110)
-                                {
-                                    grace.Gamepad(0,1,0);
-                                }
-                              else if (recognition.getLeft() < 110)
-                                {
-                                    grace.Gamepad(0,1,0);
-                                }
-                              else {
-                                  grace.move(-1, 0, 24);
-                                  arm.down();
-                                  grace.move(0, 1, 48);
-                                  arm.up();
-                                  grace.move(0, -1, 72);
-                                  arm.down();
-                                  grace.move(0, 1, 72);
-                                  arm.up();
-                                  while (IMU.getDistance(DistanceUnit.INCH) < 9)
+                            // step through the list of recognitions and display boundary info.
+                            int i = 0;
+                            for (Recognition recognition : updatedRecognitions) {
+                                if (recognition.getLabel() == "Skystone") {
+                                    telemetry.addData("", recognition);
+                                    double error = 50 - recognition.getLeft();
+                                    double kp = 0.4 / 200;
+                                    if (10 > error && error> -10){
+                                    grace.Gamepad(0, kp * error,0);
+                                    }
+                                    else {
+                                        grace.move(-1, 0, 24);
+                                        //arm.down();
+                                        //grace.move(0, 1, 48);
+                                        //arm.up();
+                                        //grace.move(0, -1, 72);
+                                        //arm.down();
+                                        //grace.move(0, 1, 72);
+                                        //arm.up();
+                                    }
+                                  /*while (IMU.getDistance(DistanceUnit.INCH) < 9)
                                   {
                                       grace.Gamepad(0,-1,0);
-                                  }
-                                  grace.turn(360);
-                              }
+                                  }*/
+                                        grace.turn(360);
+
+
+                                } else {
+                                    telemetry.addData("", recognition.getLabel());
+                                    grace.Gamepad(0, 0, 0);
+                                }
                             }
-                            else
-                            {
-                                telemetry.addData("",recognition.getLabel());
-                            }
+                            telemetry.update();
+                        } else {
+                            grace.Gamepad(0, 0, 0);
                         }
-                        telemetry.update();
                     }
                 }
             }
@@ -192,7 +194,7 @@ public class Block extends LinearOpMode {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.9;
+        tfodParameters.minimumConfidence = 0.95;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }

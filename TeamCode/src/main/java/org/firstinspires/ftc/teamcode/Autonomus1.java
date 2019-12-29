@@ -15,7 +15,7 @@ public class Autonomus1 extends LinearOpMode
     {
         AutoMech grace = new AutoMech("lF","rF","lB","rB",4,hardwareMap,telemetry);
         waitForStart();
-        grace.move(1,0,48);
+        grace.move(0,1,48);
     }
 
 
